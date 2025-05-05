@@ -1,0 +1,6 @@
+export PREFIX=~/programms/rtems
+export PATH=$PREFIX/bin:$PATH
+echo $PREFIX
+
+./waf configure --rtems=$PREFIX --rtems-bsp=arm/xilinx_zynq_a9_qemu
+./waf
