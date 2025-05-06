@@ -2,5 +2,8 @@ export PREFIX=~/programms/rtems
 export PATH=$PREFIX/bin:$PATH
 echo $PREFIX
 
-./waf configure --rtems=$PREFIX --rtems-bsp=arm/xilinx_zynq_a9_qemu
+./waf configure --rtems=$PREFIX --rtems-version=7 --rtems-bsp=arm/xilinx_zynq_a9_qemu
+
 ./waf
+
+qemu-system-arm -M xilinx-zynq-a9 -m 256M -no-reboot     -serial null -serial mon:stdio -nographic     -kernel psx_example_3.exe
