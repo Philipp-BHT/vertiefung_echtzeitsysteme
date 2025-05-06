@@ -26,7 +26,7 @@ Der Ablauf ist also wie folgt:
 | Prozess | Priorität | Schritt 1            | Schritt 2            | Schritt 3                   | Schritt 4       | Schritt 5             | Schritt 6 | Schritt 7 |
 | ------- | --------- | -------------------- | -------------------- | --------------------------- | --------------- | --------------------- | --------- | --------- |
 | CT1a    | Niedrig   | Startet, läuft       | Pausiert (wartet)    | Pausiert (wartet)           | Läuft (boosted) | Beendet               | –         | –         |
-| CT1b    | Mittel    | Noch nicht gestartet | Startet, läuft (CPU) | Läuft (CPU)                 | Pausiert (CT1c) | Pausiert              | Läuft     | Beendet   |
+| CT1b    | Mittel    | Noch nicht gestartet | Startet, läuft       | Läuft                       | Pausiert (CT1c) | Pausiert              | Läuft     | Beendet   |
 | CT1c    | Hoch      | Noch nicht gestartet | Noch nicht gestartet | Startet, blockiert am Mutex | Wartet (Mutex)  | Läuft (nach Freigabe) | Beendet   | –         |
 
 Obwohl CT1a die niedrigste Priorität hat, wird er vor CT1b beendet, da er die Priorität von CT1c durch
