@@ -1,0 +1,38 @@
+Zu erst werden die globalen Variablen pthread_mutex_t mutex und pthread_cond_t cond erstellt. mutex definiert ein
+"mutually exclusive" objekt, auf das nur von einem Thread gleichzeitig zugegriffen werden kann. cond ist eine
+Bedingungsvariable, die erstellt werden muss, um bestimmte Befehle auszuführen, die für das warten auf, oder das
+Signalisieren von erreichen von bestimmten Bedingungen genutzt werden
+
+In der main werden zuerst 4 Variablen deklariert. child1 und child2 sind threats, pthread_attr_t ist eine
+Attributsvariable, in der festgelegt wird, wie sich die erstellten threads verhalten sollen, und
+struct sched_param param bestimmt, welches scheduling für die threads genutzt werden soll.
+attr wird initialisiert und die SCHED_FIFO scheduling policy zugewiesen (First in, First out - Der Thread, der zuerst
+in die scheduling queue eingefügt wird, wird auch zuerst ausgeführt). Danach werden mutex und cond initialisiert.
+Der param Variable wird ebenfalls die scheduling policy zugewiesen.
+
+In der folgenden if-Anweisung wird der erste Kinds-Thread erzeugt (sofern das erfolgreich ist und das schedulng stimmt.
+Ansonsten wird das Programm beendet). Der thread wird mit der Funktion print_hello ausgeführt, in der der Thread eine
+Nachricht ausgibt:
+<child>: Hello World! task with max priority.
+Dann holt sich der Thread die aktuelle Zeit mit clock_gettime(CLOCK_REALTIME, &now) und speichert diese in der Variable
+now. Diese aktuelle Zeit wird ausgegeben. Anschließend wird die Timeout-Zeit festgelegt, indem zu den aktuellen Sekunden
+3 Sekunden addiert werden. Das heißt, der Thread soll maximal 3 Sekunden warten. Auch diese Timeout-Zeit wird
+ausgegeben.
+Jetzt geht der Thread mit pthread_cond_timedwait(&cond, &mutex, &timeout) in einen timed wait-Zustand.
+Das bedeutet, er wartet entweder darauf, dass die Bedingungsvariable cond von einem anderen Thread signalisiert wird
+oder dass der Timeout nach 3 Sekunden abläuft.
+In diesem Code gibt es aber keinen anderen Thread, der pthread_cond_signal() oder pthread_cond_broadcast() aufruft.
+Man würde erwarten, dass der thread 1 jetzt 3 Sekunden wartet, und thread 2 währenddessen ausgeführt wird. Der Thread 1
+wird aber sofort beendet. Wir vermuten, dass das daran liegt, dass der mutex in
+pthread_cond_timedwait(&cond, &mutex, &timeout) nie "gelocked" wird. Daher wird vermutlich dieses Kommando nicht
+ausgeführt. Nach dem (theoritischen) Warten gibt der Thread aus: The task is coming out from the timed wait.
+
+Parallel zu Thread 1 wird im main-Programm ein zweiter Kind-Thread erzeugt. Dieser wird mit der Funktion print_hello_a gestartet, die einfach nur eine Nachricht ausgibt:
+<child>: Hello World! Task with lowest priority.
+Beide Threads haben eine SCHED_FIFO-Priorität Der erste (child1) bekommt die maximale Priorität
+(sched_get_priority_max(SCHED_FIFO)), der zweite (child2) bekommt eine Priorität um 1 niedriger.
+Das bedeutet, dass der erste Thread, sobald er aktiv ist, Vorrang hat. Der zweite Thread mit niedrigerer Priorität kann
+nur laufen, wenn der erste wartet oder blockiert ist. Da der erste Thread nach dem Start nicht in den timedwait geht,
+kann der zweite Thread seine Nachricht erst nach Beenden von Thread 1 ausgeben.
+
+Am Ende wartet main mit pthread_join darauf, dass beide Threads fertig sind, bevor das Programm beendet wird.

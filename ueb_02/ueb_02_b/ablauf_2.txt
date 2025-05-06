@@ -1,0 +1,35 @@
+Zu Beginn werden drei volatile globale Variablen static volatile int capture_CT1a_deleted,
+static volatile int capture_CT1b_deleted und static volatile int capture_CT1c_deleted deklariert.
+Diese Variablen dienen dazu, von außen zu erkennen, ob die jeweiligen Tasks (CT1a, CT1b, CT1c) bereits beendet wurden.
+
+In der Funktion capture_test_1 wird zuerst ein Mutex erstellt. Das Mutex dient dazu, dass nur ein Thread gleichzeitig
+auf eine gemeinsame Ressource zugreifen kann.
+
+Danach werden drei Tasks erstellt, jeder mit unterschiedlicher Funktionalität.
+
+Task CT1a wird zuerst gestartet (Priorität 102). Er blockiert das Mutex und wartet für 2500 ms
+Danach wird das Mutex wieder freigegeben Im Anschluss wird capture_CT1a_deleted auf 1 gesetzt und der Thread beendet
+sich. Der Zweck dieses Threads ist, dass das Mutex für eine Weile blockiert wird.
+
+Task CT1b Wird als zweites gestartet (Priorität 101). Er läuft in einer Endlosschleife und verbraucht CPU-Zeit, bis CT1c
+beendet ist. Danach setzt der Thread capture_CT1b_deleted auf 1 und beendet sich.
+
+Task CT1c wird als drittes gestartet (Priorität 100, also höchste Priorität). Er versucht, das Mutex zu holen, wartet
+500 ms und gibt das Mutex wieder frei. Danach setzt er capture_CT1c_deleted auf 1 und beendet sich.
+
+Der Prozess CT1c wird zu letzt gestartet, hat aber die höchste Priorität. Da das Mutex mit RTEMS_INHERIT_PRIORITY
+angelegt wurde, kann Prozess CT1a eine höhere Priorität kriegen, damit er abgeschlossen werden kann und da sMutex wieder
+freigegeben werden kann.
+
+Der Ablauf ist also wie folgt:
+
+| Prozess | Priorität | Schritt 1            | Schritt 2            | Schritt 3                   | Schritt 4       | Schritt 5             | Schritt 6 | Schritt 7 |
+| ------- | --------- | -------------------- | -------------------- | --------------------------- | --------------- | --------------------- | --------- | --------- |
+| CT1a    | Niedrig   | Startet, läuft       | Pausiert (wartet)    | Pausiert (wartet)           | Läuft (boosted) | Beendet               | –         | –         |
+| CT1b    | Mittel    | Noch nicht gestartet | Startet, läuft (CPU) | Läuft (CPU)                 | Pausiert (CT1c) | Pausiert              | Läuft     | Beendet   |
+| CT1c    | Hoch      | Noch nicht gestartet | Noch nicht gestartet | Startet, blockiert am Mutex | Wartet (Mutex)  | Läuft (nach Freigabe) | Beendet   | –         |
+
+Obwohl CT1a die niedrigste Priorität hat, wird er vor CT1b beendet, da er die Priorität von CT1c durch
+RTEMS_INHERIT_PRIORITY erhält.
+
+Im Programm wird zum Schluss wird darauf gewartet, dass alle Threads beendet wurden, und der mutex wird gelöscht.
