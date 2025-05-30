@@ -1,0 +1,17 @@
+def options(ctx):
+    pass 
+
+def configure(ctx):
+    ctx.load('compiler_c')
+    ctx.env.CFLAGS += ['-O2']  
+
+def build(ctx):
+    ctx.load('rtems')
+
+    ctx.program(
+        target='rtems_led_blink',
+        source=['init.cpp'],
+        includes=['include'], 
+        lib=['m'], 
+        features='c rtems' 
+    )

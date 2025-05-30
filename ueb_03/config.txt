@@ -1,0 +1,4 @@
+# File needed to run the rtems application on the RPi
+
+kernel=kernel7.img
+enable_uart=1
