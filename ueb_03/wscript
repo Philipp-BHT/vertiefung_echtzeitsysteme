@@ -1,17 +1,37 @@
-def options(ctx):
-    pass 
+# Copyright 2013 Gedare Bloom (gedare@rtems.org)
+#
+# This file's license is 2-clause BSD as in this distribution's LICENSE.2 file.
+#
 
-def configure(ctx):
-    ctx.load('compiler_c')
-    ctx.env.CFLAGS += ['-O2']  
+# Waf build script for an RTEMS Hello
+from __future__ import print_function
 
-def build(ctx):
-    ctx.load('rtems')
+rtems_version = "7"
 
-    ctx.program(
-        target='rtems_led_blink',
-        source=['init.cpp'],
-        includes=['include'], 
-        lib=['m'], 
-        features='c rtems' 
-    )
+try:
+    import rtems_waf.rtems as rtems
+except:
+    print('error: no rtems_waf git submodule')
+    import sys
+    sys.exit(1)
+
+def init(ctx):
+    rtems.init(ctx, version = rtems_version, long_commands = True)
+
+def bsp_configure(conf, arch_bsp):
+    # Add BSP specific configuration checks
+    pass
+
+def options(opt):
+    rtems.options(opt)
+
+def configure(conf):
+    rtems.configure(conf, bsp_configure = bsp_configure)
+
+
+def build(bld):
+    rtems.build(bld)
+
+    bld(features = 'c cprogram',
+        target = 'init.exe',
+        source = ['init.c'])

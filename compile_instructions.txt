@@ -7,3 +7,6 @@ echo $PREFIX
 ./waf
 
 qemu-system-arm -M xilinx-zynq-a9 -m 256M -no-reboot     -serial null -serial mon:stdio -nographic     -kernel psx_example_3.exe
+
+qemu-system-arm -M raspberry2 -m 256M -no-reboot     -serial null -serial mon:stdio -nographic     -kernel init.exe
+

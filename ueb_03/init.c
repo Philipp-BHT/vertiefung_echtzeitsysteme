@@ -3,6 +3,19 @@
 #include <stdlib.h>
 #include <bsp.h> 
 
+#define CONFIGURE_INIT
+#define CONFIGURE_RTEMS_INIT_TASKS_TABLE
+
+#define CONFIGURE_APPLICATION_NEEDS_CLOCK_DRIVER
+#define CONFIGURE_APPLICATION_NEEDS_CONSOLE_DRIVER
+
+#define CONFIGURE_MAXIMUM_TASKS        4
+#define CONFIGURE_MAXIMUM_DRIVERS      10
+#define CONFIGURE_MAXIMUM_SEMAPHORES   4
+#define CONFIGURE_MAXIMUM_MESSAGE_QUEUES 2
+
+#include <rtems/confdefs.h>
+
 #define GPIO_BASE 0x3F200000
 #define REG32(addr) (*(volatile uint32_t *)(addr))
 #define GPIO_REG(offset) REG32(GPIO_BASE + offset)
@@ -23,7 +36,7 @@
 #define GPIO18 18
 #define GPIO_IRQ_VECTOR 49
 
-volatile rtems_interval blink_interval_ticks = RTEMS_MILLISECONDS_TO_TICKS(1000);
+volatile rtems_interval blink_interval_ticks;
 volatile int gpio4_state = 0;
 volatile int toggle_count = 0;
 
@@ -63,12 +76,13 @@ void gpio_set_pull(int gpio, int pull) {
     GPIO_REG(GPPUDCLK_OFFSET) = 0;
 }
 
-rtems_isr gpio18_isr(rtems_vector_number vector) {
+void gpio18_isr(void *arg) {
     static int gpio18_state = 0;
     gpio18_state = !gpio18_state;
     gpio_write(GPIO18, gpio18_state);
     toggle_count++;
     puts("ISR triggered\n");
+
     // Clear GPIO18 interrupt event
     GPIO_REG(GPEDS_OFFSET + (GPIO18 / 32) * 4) |= (1 << (GPIO18 % 32));
 }
@@ -91,6 +105,7 @@ rtems_task logger_task(rtems_task_argument arg) {
 
 rtems_task Init(rtems_task_argument ignored) {
     printf("RTEMS LED Blink with Interrupt Example\n");
+    blink_interval_ticks = RTEMS_MILLISECONDS_TO_TICKS(1000);
 
     // Enable falling edge detection for GPIO18
     GPIO_REG(GPFEN_OFFSET + (GPIO18 / 32) * 4) |= (1 << (GPIO18 % 32));
