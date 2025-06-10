@@ -7,7 +7,7 @@
 #define CONFIGURE_RTEMS_INIT_TASKS_TABLE
 
 #define CONFIGURE_APPLICATION_NEEDS_CLOCK_DRIVER
-#define CONFIGURE_APPLICATION_NEEDS_CONSOLE_DRIVER
+#define CONFIGURE_APPLICATION_NEEDS_SIMPLE_CONSOLE_DRIVER
 
 #define CONFIGURE_MAXIMUM_TASKS        4
 #define CONFIGURE_MAXIMUM_DRIVERS      10
@@ -34,11 +34,14 @@
 
 #define GPIO4 4
 #define GPIO18 18
-#define GPIO_IRQ_VECTOR 49
+#define GPIO23 23
+#define GPIO_IRQ_VECTOR 49 
+#define ENABLE 1
 
 volatile rtems_interval blink_interval_ticks;
 volatile int gpio4_state = 0;
 volatile int toggle_count = 0;
+volatile int gpio23_state = 0;
 
 void gpio_set_mode(int gpio, int mode) {
     // mode: 0 = input, 1 = output
@@ -76,29 +79,38 @@ void gpio_set_pull(int gpio, int pull) {
     GPIO_REG(GPPUDCLK_OFFSET) = 0;
 }
 
-void gpio18_isr(void *arg) {
-    static int gpio18_state = 0;
-    gpio18_state = !gpio18_state;
-    gpio_write(GPIO18, gpio18_state);
-    toggle_count++;
-    puts("ISR triggered\n");
+void gpio_set_falling_edge(int gpio) {
+    if (ENABLE) 
+        GPIO_REG(GPFEN_OFFSET + (gpio / 32) * 4) |= (1 << (gpio % 32));
+    else
+        GPIO_REG(GPFEN_OFFSET + (gpio / 32) * 4) &= ~(1 << (gpio % 32));
+}
 
-    // Clear GPIO18 interrupt event
-    GPIO_REG(GPEDS_OFFSET + (GPIO18 / 32) * 4) |= (1 << (GPIO18 % 32));
+void gpio23_isr(void *arg) {
+    gpio23_state = !gpio23_state;
+    gpio_write(GPIO18, gpio23_state);
+    toggle_count++;
+    printf("ISR triggered\n");
+
+    // Clear GPIO23 interrupt event
+    GPIO_REG(GPEDS_OFFSET + (GPIO23 / 32) * 4) |= (1 << (GPIO23 % 32));
 }
 
 rtems_task gpio4_task(rtems_task_argument arg) {
     while (1) {
         gpio_write(GPIO4, 1);
+        gpio_write(GPIO23, 1);
+        printf("GPIO4 On\n");
         rtems_task_wake_after(blink_interval_ticks);
         gpio_write(GPIO4, 0);
+        printf("GPIO4 Off\n");
         rtems_task_wake_after(blink_interval_ticks);
     }
 }
 
 rtems_task logger_task(rtems_task_argument arg) {
     while (1) {
-        printf("GPIO4: %d, Toggles: %d\n", gpio_read(GPIO4), toggle_count);
+        printf("GPI18 Toggles: %d\n", toggle_count);
         rtems_task_wake_after(RTEMS_MILLISECONDS_TO_TICKS(1000)); 
     }
 }
@@ -107,22 +119,23 @@ rtems_task Init(rtems_task_argument ignored) {
     printf("RTEMS LED Blink with Interrupt Example\n");
     blink_interval_ticks = RTEMS_MILLISECONDS_TO_TICKS(1000);
 
-    // Enable falling edge detection for GPIO18
     GPIO_REG(GPFEN_OFFSET + (GPIO18 / 32) * 4) |= (1 << (GPIO18 % 32));
 
     gpio_set_mode(GPIO4, 1);       // output
-    gpio_set_mode(GPIO18, 0);      // input
-    gpio_set_pull(GPIO18, 1);      // pull-down
-    gpio_write(GPIO4, 0);    
+    gpio_set_mode(GPIO18, 1);      // output
+    gpio_set_mode(GPIO23, 0);      // input
+    gpio_set_pull(GPIO23, 1);      // pull-down
+    gpio_set_falling_edge(GPIO23);
+    gpio_write(GPIO4, 0); 
+    gpio_write(GPIO18, 0);    
 
     rtems_interrupt_handler_install(
         /* vector */ GPIO_IRQ_VECTOR,
-        /* name   */ "GPIO18 ISR",
+        /* name   */ "GPIO23 ISR",
         /* attr   */ RTEMS_INTERRUPT_UNIQUE,
-        /* handler*/ gpio18_isr,
+        /* handler*/ gpio23_isr,
         /* arg    */ NULL
     );
-
 
     rtems_id gpio4_id;
     rtems_task_create(
@@ -131,7 +144,6 @@ rtems_task Init(rtems_task_argument ignored) {
         &gpio4_id
     );
     rtems_task_start(gpio4_id, gpio4_task, 0);
-
 
     rtems_id logger_id;
     rtems_task_create(
@@ -143,9 +155,3 @@ rtems_task Init(rtems_task_argument ignored) {
 
     rtems_task_delete(RTEMS_SELF);
 }
-
-
-#define CONFIGURE_APPLICATION_NEEDS_CLOCK_DRIVER  
-#define CONFIGURE_APPLICATION_NEEDS_CONSOLE_DRIVER
-#define CONFIGURE_RTEMS_INIT_TASKS_TABLE
-#define CONFIGURE_MAXIMUM_TASKS 4

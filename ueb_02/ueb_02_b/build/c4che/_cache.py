@@ -1,0 +1,9 @@
+ARCHS = ['arm-rtems7']
+ARCH_BSPS = ['arm-rtems7-xilinx_zynq_a9_qemu']
+BINDIR = '/home/philipp/programms/rtems/bin'
+LIBDIR = '/home/philipp/programms/rtems/lib'
+LONG_COMMANDS = 'no'
+PREFIX = '/home/philipp/programms/rtems'
+RTEMS_ARCH_BSP_LIST = ['arm-rtems7-xilinx_zynq_a9_qemu']
+RTEMS_TOOLS = ['/home/philipp/programms/rtems/bin']
+SHOW_COMMANDS = 'no'

@@ -1,0 +1,2 @@
+RTEMS Tools Project - RTEMS Kernel BSP Builder, 6.0.not_released
+command: /home/philipp/programms/rtems/bin/rtems-bsp-builder

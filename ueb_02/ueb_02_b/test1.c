@@ -45,6 +45,13 @@
 #include <rtems.h>
 #include <rtems/monitor.h>
 
+#define CONFIGURE_INIT
+#define CONFIGURE_APPLICATION_NEEDS_CONSOLE_DRIVER
+#define CONFIGURE_APPLICATION_NEEDS_CLOCK_DRIVER
+#define CONFIGURE_MAXIMUM_TASKS 4
+#define CONFIGURE_RTEMS_INIT_TASKS_TABLE
+#include <rtems/confdefs.h>
+
 static volatile int capture_CT1a_deleted;
 static volatile int capture_CT1b_deleted;
 static volatile int capture_CT1c_deleted;

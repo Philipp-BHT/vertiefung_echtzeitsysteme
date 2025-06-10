@@ -1,9 +1,6 @@
-# Copyright 2013 Gedare Bloom (gedare@rtems.org)
 #
-# This file's license is 2-clause BSD as in this distribution's LICENSE.2 file.
+# Hello world Waf script
 #
-
-# Waf build script for an RTEMS Hello
 from __future__ import print_function
 
 rtems_version = "7"
@@ -27,7 +24,6 @@ def options(opt):
 
 def configure(conf):
     rtems.configure(conf, bsp_configure = bsp_configure)
-
 
 def build(bld):
     rtems.build(bld)

@@ -1,6 +1,6 @@
-# project  configured on Mon Jun  2 11:29:32 2025 by
+# project  configured on Tue Jun 10 17:31:03 2025 by
 # waf 2.0.19 (abi 20, python 30a10f0 on linux)
-# using ./waf configure --rtems=/home/philipp/programms/rtems --rtems-version=7 --rtems-bsp=arm/raspberrypi2
+# using ./waf configure --rtems=/home/philipp/programms/rtems --rtems-bsp=arm/raspberrypi2
 #
 ----------------------------------------
 Setting top to
