@@ -1,0 +1,167 @@
+RTEMS RPi 3B 1.2 (1GB) [00a02082]
+RTEMS LED Blink with Interrupt Example
+UART input ready. Type a number and press Enter to set blink interval (ms).
+GPIO4 On
+GPIO18 Status: Off,  GPIO18 Toggles: 0
+GPIO4 Off
+GPIO18 Status: On,  GPIO18 Toggles: 1
+GPIO4 On
+GPIO18 Status: On,  GPIO18 Toggles: 1
+GPIO4 Off
+GPIO18 Status: Off,  GPIO18 Toggles: 2
+GPIO4 On
+GPIO18 Status: Off,  GPIO18 Toggles: 2
+GPIO4 Off
+GPIO18 Status: On,  GPIO18 Toggles: 3
+GPIO4 On
+GPIO18 Status: On,  GPIO18 Toggles: 3
+GPIO4 Off
+GPIO18 Status: Off,  GPIO18 Toggles: 4
+GPIO4 On
+GPIO18 Status: Off,  GPIO18 Toggles: 4
+GPIO4 Off
+GPIO18 Status: On,  GPIO18 Toggles: 5
+GPIO4 On
+GPIO18 Status: On,  GPIO18 Toggles: 5
+GPIO4 Off
+GPIO18 Status: Off,  GPIO18 Toggles: 6
+GPIO4 On
+GPIO18 Status: Off,  GPIO18 Toggles: 6
+GPIO4 Off
+GPIO18 Status: On,  GPIO18 Toggles: 7
+Blink interval updated to 500 ms.
+GPIO4 On
+GPIO18 Status: On,  GPIO18 Toggles: 7
+GPIO4 Off
+GPIO18 Status: Off,  GPIO18 Toggles: 8
+GPIO4 On
+GPIO18 Status: Off,  GPIO18 Toggles: 8
+GPIO4 Off
+GPIO18 Status: On,  GPIO18 Toggles: 9
+GPIO4 On
+GPIO18 Status: On,  GPIO18 Toggles: 9
+GPIO4 Off
+GPIO18 Status: Off,  GPIO18 Toggles: 10
+GPIO4 On
+GPIO18 Status: Off,  GPIO18 Toggles: 10
+GPIO4 Off
+GPIO18 Status: On,  GPIO18 Toggles: 11
+GPIO4 On
+GPIO18 Status: On,  GPIO18 Toggles: 11
+Blink interval updated to 200 ms.
+GPIO4 Off
+GPIO18 Status: Off,  GPIO18 Toggles: 12
+GPIO4 On
+GPIO18 Status: Off,  GPIO18 Toggles: 12
+GPIO4 Off
+GPIO18 Status: On,  GPIO18 Toggles: 13
+GPIO4 On
+GPIO18 Status: On,  GPIO18 Toggles: 13
+GPIO4 Off
+GPIO18 Status: Off,  GPIO18 Toggles: 14
+GPIO4 On
+GPIO18 Status: Off,  GPIO18 Toggles: 14
+GPIO4 Off
+GPIO18 Status: On,  GPIO18 Toggles: 15
+GPIO4 On
+GPIO18 Status: On,  GPIO18 Toggles: 15
+GPIO4 Off
+GPIO18 Status: Off,  GPIO18 Toggles: 16
+GPIO4 On
+GPIO18 Status: Off,  GPIO18 Toggles: 16
+GPIO4 Off
+GPIO18 Status: On,  GPIO18 Toggles: 17
+GPIO4 On
+GPIO18 Status: On,  GPIO18 Toggles: 17
+GPIO4 Off
+GPIO18 Status: Off,  GPIO18 Toggles: 18
+GPIO4 On
+GPIO18 Status: Off,  GPIO18 Toggles: 18
+GPIO4 Off
+GPIO18 Status: On,  GPIO18 Toggles: 19
+GPIO4 On
+GPIO18 Status: On,  GPIO18 Toggles: 19
+GPIO4 Off
+GPIO18 Status: Off,  GPIO18 Toggles: 20
+GPIO4 On
+GPIO18 Status: Off,  GPIO18 Toggles: 20
+Blink interval updated to 100 ms.
+GPIO4 Off
+GPIO18 Status: On,  GPIO18 Toggles: 21
+GPIO4 On
+GPIO18 Status: On,  GPIO18 Toggles: 21
+GPIO4 Off
+GPIO18 Status: Off,  GPIO18 Toggles: 22
+GPIO4 On
+GPIO18 Status: Off,  GPIO18 Toggles: 22
+GPIO4 Off
+GPIO18 Status: On,  GPIO18 Toggles: 23
+GPIO4 On
+GPIO18 Status: On,  GPIO18 Toggles: 23
+GPIO4 Off
+GPIO18 Status: Off,  GPIO18 Toggles: 24
+GPIO4 On
+GPIO18 Status: Off,  GPIO18 Toggles: 24
+GPIO4 Off
+GPIO18 Status: On,  GPIO18 Toggles: 25
+GPIO4 On
+GPIO18 Status: On,  GPIO18 Toggles: 25
+GPIO4 Off
+GPIO18 Status: Off,  GPIO18 Toggles: 26
+GPIO4 On
+GPIO18 Status: Off,  GPIO18 Toggles: 26
+GPIO4 Off
+GPIO18 Status: On,  GPIO18 Toggles: 27
+GPIO4 On
+GPIO18 Status: On,  GPIO18 Toggles: 27
+GPIO4 Off
+GPIO18 Status: Off,  GPIO18 Toggles: 28
+GPIO4 On
+GPIO18 Status: Off,  GPIO18 Toggles: 28
+GPIO4 Off
+GPIO18 Status: On,  GPIO18 Toggles: 29
+GPIO4 On
+GPIO18 Status: On,  GPIO18 Toggles: 29
+GPIO4 Off
+GPIO18 Status: Off,  GPIO18 Toggles: 30
+GPIO4 On
+GPIO18 Status: Off,  GPIO18 Toggles: 30
+GPIO4 Off
+GPIO18 Status: On,  GPIO18 Toggles: 31
+GPIO4 On
+GPIO18 Status: On,  GPIO18 Toggles: 31
+GPIO4 Off
+GPIO18 Status: Off,  GPIO18 Toggles: 32
+GPIO4 On
+GPIO18 Status: Off,  GPIO18 Toggles: 32
+GPIO4 Off
+GPIO18 Status: On,  GPIO18 Toggles: 33
+GPIO4 On
+GPIO18 Status: On,  GPIO18 Toggles: 33
+GPIO4 Off
+GPIO18 Status: Off,  GPIO18 Toggles: 34
+GPIO4 On
+GPIO18 Status: Off,  GPIO18 Toggles: 34
+Blink interval updated to 1000 ms.
+GPIO4 Off
+GPIO18 Status: On,  GPIO18 Toggles: 35
+GPIO4 On
+GPIO18 Status: On,  GPIO18 Toggles: 35
+GPIO4 Off
+GPIO18 Status: Off,  GPIO18 Toggles: 36
+GPIO4 On
+GPIO18 Status: Off,  GPIO18 Toggles: 36
+GPIO4 Off
+GPIO18 Status: On,  GPIO18 Toggles: 37
+GPIO4 On
+GPIO18 Status: On,  GPIO18 Toggles: 37
+GPIO4 Off
+GPIO18 Status: Off,  GPIO18 Toggles: 38
+GPIO4 On
+GPIO18 Status: Off,  GPIO18 Toggles: 38
+GPIO4 Off
+GPIO18 Status: On,  GPIO18 Toggles: 39
+GPIO4 On
+GPIO18 Status: On,  GPIO18 Toggles: 39
+GPIO4 Off
+GPIO18 Status: Off,  GPIO18 Toggles: 40

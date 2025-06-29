@@ -1,5 +1,8 @@
 {
     "files.associations": {
         "testmacros.h": "c"
-    }
+    },
+    "idf.espIdfPath": "/home/philipp/esp/esp-idf",
+    "idf.toolsPath": "/home/philipp/.espressif",
+    "idf.pythonInstallPath": "/usr/bin/python3"
 }

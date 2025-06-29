@@ -4,8 +4,8 @@ echo $PREFIX
 
 ./waf clean
 
-./waf configure --rtems=$PREFIX --rtems-bsp=arm/xilinx_zynq_a9_qemu
-./waf configure --rtems=$PREFIX --rtems-bsp=arm/raspberrypi2
+./waf configure --rtems=$PREFIX --rtems-version=7 --rtems-bsp=arm/xilinx_zynq_a9_qemu
+./waf configure --rtems=$PREFIX --rtems-version=7 --rtems-bsp=arm/raspberrypi2
 
 ./waf
 
@@ -21,3 +21,6 @@ arm-rtems7-gdb -ex "target remote :1234" \
                -ex "set \$r2 = 0x2ef00000" \
                -ex "set scheduler-locking on" \
                build/arm-rtems7-raspberrypi2/mini_init.exe
+               
+arm-rtems7-objcopy -Obinary init.exe kernel.img
+               
