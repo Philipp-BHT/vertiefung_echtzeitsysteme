@@ -20,7 +20,7 @@ arm-rtems7-gdb -ex "target remote :1234" \
                -ex "restore ~/Documents/temp/bcm2709-rpi-2-b.dtb binary 0x2ef00000" \
                -ex "set \$r2 = 0x2ef00000" \
                -ex "set scheduler-locking on" \
-               build/arm-rtems7-raspberrypi2/mini_init.exe
+               build/arm-rtems7-raspberrypi2/init.exe
                
 arm-rtems7-objcopy -Obinary init.exe kernel.img
                

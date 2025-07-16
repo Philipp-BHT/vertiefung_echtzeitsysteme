@@ -1,6 +1,7 @@
 {
     "files.associations": {
-        "testmacros.h": "c"
+        "testmacros.h": "c",
+        "stdio.h": "c"
     },
     "idf.espIdfPath": "/home/philipp/esp/esp-idf",
     "idf.toolsPath": "/home/philipp/.espressif",
